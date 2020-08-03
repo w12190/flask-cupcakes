@@ -1,21 +1,25 @@
 from models import db, Cupcake
 from app import app
 
-db.drop_all()
-db.create_all()
 
-c1 = Cupcake(
-    flavor="cherry",
-    size="large",
-    rating=5,
-)
+def seed_db():
+    db.drop_all()
+    db.create_all()
 
-c2 = Cupcake(
-    flavor="chocolate",
-    size="small",
-    rating=9,
-    image="https://www.bakedbyrachel.com/wp-content/uploads/2018/01/chocolatecupcakesccfrosting1_bakedbyrachel.jpg"
-)
+    c1 = Cupcake(
+        flavor="cherry",
+        size="large",
+        rating=5,
+    )
 
-db.session.add_all([c1, c2])
-db.session.commit()
+    c2 = Cupcake(
+        flavor="chocolate",
+        size="small",
+        rating=9,
+        image="https://www.bakedbyrachel.com/wp-content/uploads/2018/01/chocolatecupcakesccfrosting1_bakedbyrachel.jpg"
+    )
+
+    db.session.add_all([c1, c2])
+    db.session.commit()
+
+seed_db()

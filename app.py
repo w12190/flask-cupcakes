@@ -33,7 +33,7 @@ def create_cupcake():
     flavor = request.json['flavor']
     size = request.json['size']
     rating = request.json['rating']
-    image = request.json['image']
+    image = request.json['image'] or None #if falsy (empty string), return None
 
     #Create new cupcake
     new_cupcake = Cupcake(flavor = flavor, size = size, rating = rating, image = image)
@@ -43,11 +43,39 @@ def create_cupcake():
     db.session.commit()
 
     #Serialize new cupcake and return as JSON
-    serialized = new_cupcake.serialize() #?????????????????? no argument
+    serialized = new_cupcake.serialize()
 
     return (jsonify(cupcake = serialized), 201)
 
 
+@app.route('/api/cupcakes/<int:cupcake_id>', methods = ['PATCH'])
+def update_cupcake(cupcake_id):
+    """ Updates a cupcake with the given data. """
+
+    #Gets JSON data and updates cupcake
+    cupcake_to_update = Cupcake.query.get_or_404(cupcake_id)
+
+    cupcake_to_update.flavor = request.json['flavor']
+    cupcake_to_update.size = request.json['size']
+    cupcake_to_update.rating = request.json['rating']
+    cupcake_to_update.image = request.json['image']
+
+    db.session.commit()
+
+    return (jsonify(cupcake = cupcake_to_update.serialize()), 200)
+
+@app.route('/api/cupcakes/<int:cupcake_id>', methods = ['DELETE'])
+def delete_cupcake(cupcake_id):
+    """ Deletes a cupcake. """
+    cupcake_to_delete = Cupcake.query.get_or_404(cupcake_id)
+
+    db.session.delete(cupcake_to_delete)
+    db.session.commit()
+
+    return jsonify(message = "Deleted")
 
 # NOTES
 # - We define serialize() in the model classes, and it returns a serialized version of itself.
+
+# Question
+#confirmation question: need to commit on update?
