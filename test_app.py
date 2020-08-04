@@ -54,3 +54,22 @@ class CupcakeViewsTestCase(TestCase):
         with app.test_client() as client:
             resp = client.delete("/api/cupcakes/2")
             self.assertEqual(resp.json['message'], "Deleted")
+
+    def test_delete_cupcake_when_no_cupcake_found(self):
+        """ Tests if DELETE '/api/cupcakes/<id>' gives an error if id is not found. """
+        with app.test_client() as client:
+            resp = client.delete("/api/cupcakes/100")
+            self.assertEqual(resp.status_code, 404)
+
+    def test_patch_cupcake_when_no_cupcake_found(self):
+        """ Tests if PATCH '/api/cupcakes/<id>' gives an error if id is not found. """
+        with app.test_client() as client:
+            resp = client.patch("/api/cupcakes/100")
+            self.assertEqual(resp.status_code, 404)
+
+    def test_get_cupcake_when_no_cupcake_found(self):
+        """ Tests if GET '/api/cupcakes/<id>' gives an error if id is not found. """
+        with app.test_client() as client:
+            resp = client.get("/api/cupcakes/100")
+            self.assertEqual(resp.status_code, 404)
+

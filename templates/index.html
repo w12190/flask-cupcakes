@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupcakes</title>
+</head>
+<body>
+    <h1>All Cupcakes</h1>
+    <ul id="cupcakes-list">
+        
+    </ul>
+    <form id="cupcake-form">
+        <label for="flavor-in-form">Flavor</label>
+        <input type="text" id="flavor-in-form" name="flavor-in-form"><br>
+
+        <label for="size-in-form">Size</label>
+        <input type="text" id="size-in-form" name="size-in-form" value="23"><br>
+
+        <label for="rating-in-form">Rating</label>
+        <input type="text" id="rating-in-form" name="rating-in-form" value="8"><br>
+
+        <label for="image-in-form">Image</label>
+        <input type="text"  id="image-in-form" name="image-in-form" value=""><br>
+
+        <button >Create cupcake</button>
+    </form>
+
+    <form id="search-cupcake">
+        <label for="search-term">Search for a cupcake</label>
+        <input type="text" id="search-term" name="search-term">
+
+        <button>Submit</button>
+    </form>
+
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.js"
+    integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+    crossorigin="anonymous"></script>
+
+    <script src="https://unpkg.com/axios/dist/axios.js"></script>
+
+    <script src="/static/index.js"></script>
+</body>
+</html>

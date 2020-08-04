@@ -1,5 +1,5 @@
 """Flask app for Cupcakes"""
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from models import db, connect_db, Cupcake
 
 app = Flask(__name__)
@@ -8,6 +8,12 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 
 connect_db(app)
+
+@app.route('/')
+def display_homepage():
+    """ Returns data on all cupcakes. """
+    
+    return render_template("index.html")
 
 @app.route('/api/cupcakes')
 def get_cupcakes():
@@ -20,7 +26,7 @@ def get_cupcakes():
 @app.route('/api/cupcakes/<int:cupcake_id>')
 def get_cupcake(cupcake_id):
     """ Get data on a single cupcake. """
-    cupcake = Cupcake.query.get(cupcake_id)
+    cupcake = Cupcake.query.get_or_404(cupcake_id)
 
     return jsonify(cupcake = cupcake.serialize())
 
@@ -28,13 +34,12 @@ def get_cupcake(cupcake_id):
 @app.route('/api/cupcakes', methods = ['POST'])
 def create_cupcake():
     """ Creates a cupcake from the data in the request. """
-
+    print (f"LOOKING FOR THIS {request.json}")
     #Grab cupcake JSON from GET request
     flavor = request.json['flavor']
     size = request.json['size']
     rating = request.json['rating']
     image = request.json['image'] or None #if falsy (empty string), return None
-
     #Create new cupcake
     new_cupcake = Cupcake(flavor = flavor, size = size, rating = rating, image = image)
 
